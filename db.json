@@ -1,7 +1,5 @@
 {
-  "users":{
-    "count":3
-    "results":[
+  "users":[
       {
         "id":1,
         "username":"lololex",
@@ -17,8 +15,7 @@
         "username":"jeje",
         "deck":[158,315,3,5,80]
       }
-    ]
-  },
+    ],
   "cards":[
     {
       "id":1,
