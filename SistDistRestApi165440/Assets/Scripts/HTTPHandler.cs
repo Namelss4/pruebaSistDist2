@@ -15,6 +15,8 @@ public class HttpHandler : MonoBehaviour
     private RawImage[] portraits = new RawImage[5];
     [SerializeField]
     private TextMeshProUGUI[] names = new TextMeshProUGUI[5];
+    [SerializeField]
+    private TextMeshProUGUI[] species = new TextMeshProUGUI[5];
 
     [SerializeField]
     private TextMeshProUGUI btn1, btn2, btn3;
@@ -101,6 +103,8 @@ public class HttpHandler : MonoBehaviour
                 Character character = JsonUtility.FromJson<Character>(request.downloadHandler.text);
 
                 names[nameCounter].text = character.name;
+                species[nameCounter].text = character.species;
+
                 StartCoroutine(DownloadImage(character.image, nameCounter));
             }
             else
@@ -126,38 +130,6 @@ public class HttpHandler : MonoBehaviour
             portraits[imgCounter].texture = ((DownloadHandlerTexture)request.downloadHandler).texture;
         }
     }
-
-    IEnumerator GetCharacters()
-    {
-        UnityWebRequest request = UnityWebRequest.Get(RickYMortyApiUrl + "/character");
-        yield return request.SendWebRequest();
-
-        if (request.result == UnityWebRequest.Result.ConnectionError)
-        {
-            Debug.Log(request.error);
-        }
-        else
-        {
-            if (request.responseCode == 200)
-            {
-                //Debug.Log(request.downloadHandler.text);
-                CharactersList characters = JsonUtility.FromJson<CharactersList>(request.downloadHandler.text);
-
-                Debug.Log("TOTAL:" + characters.info.count);
-                foreach (Character character in characters.results)
-                {
-                    Debug.Log(character.name + " is a " + character.species);
-                }
-
-            }
-            else
-            {
-                Debug.Log(request.responseCode + "|" + request.error);
-            }
-
-        }
-        sendRequest_GetCharacters = null;
-    } 
 
     private void Start()
     {
