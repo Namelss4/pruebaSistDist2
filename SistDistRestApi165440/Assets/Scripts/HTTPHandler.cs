@@ -16,17 +16,21 @@ public class HttpHandler : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] names = new TextMeshProUGUI[5];
 
+    [SerializeField]
+    private TextMeshProUGUI btn1, btn2, btn3;
+
     private int imgCounter;
+
+    //private bool isGettingUsernames;
 
     public void SendRequest(int id)
     {
         if (sendRequest_GetCharacters == null)
             imgCounter = 0;
-        sendRequest_GetCharacters = StartCoroutine(GetUserData(id));
+        sendRequest_GetCharacters = StartCoroutine(GetUserData(id, false));
     }
 
-
-    IEnumerator GetUserData(int uid)
+    IEnumerator GetUserData(int uid, bool isGettingNames)
     {
         UnityWebRequest request = UnityWebRequest.Get(FakeApiUrl + "/users/" + uid);
         yield return request.SendWebRequest();
@@ -43,10 +47,31 @@ public class HttpHandler : MonoBehaviour
                 UserData user = JsonUtility.FromJson<UserData>(request.downloadHandler.text);
 
                 Debug.Log(user.username);
-                foreach (int cardID in user.deck)
+
+                if (!isGettingNames)
                 {
-                    StartCoroutine(GetCharacter(cardID, imgCounter));
-                    imgCounter++;
+                    foreach (int cardID in user.deck)
+                    {
+                        StartCoroutine(GetCharacter(cardID, imgCounter));
+                        imgCounter++;                   
+                    }
+                }
+                else
+                {
+                    switch (uid)
+                    {
+                        case 1:
+                            btn1.text = user.username;
+                            break;
+                        case 2:
+                            btn2.text = user.username;
+                            break;
+                        case 3:
+                            btn3.text = user.username;
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
             }
@@ -132,39 +157,44 @@ public class HttpHandler : MonoBehaviour
 
         }
         sendRequest_GetCharacters = null;
-    }
+    } 
 
-
-
-    [System.Serializable]
-    public class UserData
+    private void Start()
     {
-        public int id;
-        public string username;
-        public int[] deck;
+        StartCoroutine(GetUserData(1, true));
+        StartCoroutine(GetUserData(2, true));
+        StartCoroutine(GetUserData(3, true));
     }
+}
 
-    [System.Serializable]
-    public class CharactersList
-    {
-        public CharactersInfo info;
-        public Character[] results;
-    }
-    [System.Serializable]
-    public class Character
-    {
-        public int id;
-        public string name;
-        public string species;
-        public string image;
+[System.Serializable]
+public class UserData
+{
+    public int id;
+    public string username;
+    public int[] deck;
+}
 
-    }
-    [System.Serializable]
-    public class CharactersInfo
-    {
-        public int count;
-        public int pages;
-        public string prev;
-        public string next;
-    }
+[System.Serializable]
+public class CharactersList
+{
+    public CharactersInfo info;
+    public Character[] results;
+}
+[System.Serializable]
+public class Character
+{
+    public int id;
+    public string name;
+    public string species;
+    public string image;
+
+}
+[System.Serializable]
+public class CharactersInfo
+{
+    public int count;
+    public int pages;
+    public string prev;
+    public string next;
 }

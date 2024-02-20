@@ -1984,6 +1984,9 @@ MonoBehaviour:
   - {fileID: 84284015}
   - {fileID: 653225847}
   - {fileID: 782131926}
+  btn1: {fileID: 643309082}
+  btn2: {fileID: 920652395}
+  btn3: {fileID: 991610054}
 --- !u!4 &1361547295
 Transform:
   m_ObjectHideFlags: 0
