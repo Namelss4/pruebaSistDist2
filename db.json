@@ -2,18 +2,18 @@
   "users":[
       {
         "id":1,
-        "username":"lololex",
-        "deck":[1,25,36,544,87]
+        "username":"Flare",
+        "deck":[12,209,192,420,69]
       },
        {
         "id":2,
-        "username":"waroo",
-        "deck":[15,253,364,54,800]
+        "username":"Homus",
+        "deck":[2,5,444,666,8]
       },
       {
         "id":3,
-        "username":"jeje",
-        "deck":[158,315,3,5,80]
+        "username":"Haze",
+        "deck":[609,805,19,53,713]
       }
     ],
   "cards":[
